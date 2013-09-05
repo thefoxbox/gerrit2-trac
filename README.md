@@ -54,7 +54,7 @@ If hooks already exist and you would still like to use Gerrit2Trac for updating 
 
 ## Usage
 
-Once the Gerrit hooks have been created, any corresponding Gerrit action will update the Trac ticket referenced in the Git commit message.
+Once the Gerrit hooks have been created, any corresponding Gerrit hook action will update the Trac ticket referenced in the Git commit message.
 
 ## Workflow customization
 
