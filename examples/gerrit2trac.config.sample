@@ -1,0 +1,68 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Gerrit2Trac configuration ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;
+; Trac XMLRPC ;
+;;;;;;;;;;;;;;;
+
+[trac]
+xmlRpcWebUrl = https://localhost/trac/login/rpc
+username = gerrit2
+password = secret
+
+;;;;;;;;;;;;;;;;;;;
+; Gerrit REST API ;
+;;;;;;;;;;;;;;;;;;;
+
+[gerrit]
+canonicalWebUrl = https://localhost/gerrit
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Workflow                                                            ;
+;                                                                     ;
+; Here you can override the default ticket comments and actions with  ;
+; custom settings.                                                    ;
+;                                                                     ;
+; Variable interprolation can be used where $variable is              ;
+; a named parameter.                                                  ; 
+;                                                                     ;
+; See gerrit2trac.py -h for a list of named parameters.               ;
+;                                                                     ;
+; comment: comment to be added to ticket.                             ;
+; action: any valid Trac ticket action (leave, resolve, ...)          ;
+; cc: add address to ticket Cc: field (i.e. john@example.com [, ...]) ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[workflow]
+
+; Default
+comment = Gerrit2Trac submitted this comment.
+action = leave
+
+; Patch-set created
+patchset_created.comment = A new patch-set has been submitted to Gerrit for code review.
+    * Change-Id: $change
+    * Patch Set: $patchset
+    * Uploader: $uploader
+patchset_created.cc = $uploader
+
+; Reviewer added
+reviewer_added.comment = A Gerrit code-reviewer has been added.
+    * Change-Id: $change
+    * Reviewer: $reviewer
+
+; Comment added
+comment_added.comment = A new comment has been added to Gerrit Code Review.
+    * Change-Id: $change
+    * Author: $author
+    * Code-Review: $codereview
+    * Verified: $verified
+    * Comment: $comment
+
+; Change merged
+change_merged.comment = Change has been successfully merged into the git repository.
+    * Change-Id: $change
+    * Submitter: $submitter
+change_merged.action = resolve
+
