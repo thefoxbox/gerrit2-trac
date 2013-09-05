@@ -35,7 +35,7 @@ Copy the `gerrit2trac.py` script to your $site\_path/bin directory.
 
     sudo cp ./gerrit2-trac/gerrit2trac.py /opt/gerrit2/bin
 
-Create the desired Gerrit Hooks (_patchset-created_, _change-merged_, etc.) in your $site\_path/hooks directory.
+Create the desired Gerrit hooks (_patchset-created_, _change-merged_, etc.) in your $site\_path/hooks directory.
 
     if [ ! -d /opt/gerrit2/hooks ]; then
         sudo mkdir /opt/gerrit2/hooks
