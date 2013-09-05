@@ -15,6 +15,7 @@ Gerrit2Trac is a utility for updating Trac tickets via Gerrit Code Review hooks.
 * Gerrit's $site\_path is _/opt/gerrit2_.
 * Login name (or UID) the Gerrit JVM executes as is _gerrit2_.
 * _gerrit2_ is a valid Trac user with TICKET\_MODIFY privileges.
+* Gerrit allows _Anonymous Users_ read access to _refs/*_.
 
 ## Configuration
 
@@ -46,6 +47,10 @@ Create the desired Gerrit Hooks (_patchset-created_, _change-merged_, etc.) in y
             sudo chmod 0755 /opt/gerrit2/hooks/${hook}
         fi
     done
+
+If hooks already exist and you would still like to use Gerrit2Trac for updating tickets, you can add the following line to your hook:
+
+    python /opt/gerrit2/bin/gerrit2trac.py $(basename $0) "$@"
 
 ## Usage
 
