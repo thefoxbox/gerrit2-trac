@@ -1,0 +1,2 @@
+#!/bin/sh
+python /opt/gerrit2/bin/gerrit2trac.py $(basename $0) "$@"
