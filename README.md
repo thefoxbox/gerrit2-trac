@@ -12,10 +12,8 @@ Gerrit2Trac is a utility for updating Trac tickets via Gerrit Code Review hooks.
 ## Assumptions
 
 * A working knowledge of \*nix, Gerrit, Trac and Git.
-* Gerrit's $site\_path is _/opt/gerrit2_.
-* Login name (or UID) the Gerrit JVM executes as is _gerrit2_.
-* _gerrit2_ is a valid Trac user with TICKET\_MODIFY privileges.
-* Gerrit allows _Anonymous Users_ read access to _refs/*_.
+* A valid Trac account with TICKET\_MODIFY privileges.
+* Gerrit is configured to allow _Anonymous Users_ read access to _refs/*_.
 
 ## Configuration
 
@@ -25,17 +23,23 @@ Clone the Gerrit2Trac repository.
 
 Copy the included sample configuration to your $site\_path/etc directory and protect the file contents.
 
+**Example:**
+
     sudo cp ./gerrit2-trac/examples/gerrit2trac.config.sample /opt/gerrit2/etc/gerrit2trac.config
     sudo chown gerrit2:gerrit2 /opt/gerrit2/etc/gerrit2trac.config
     sudo chmod 0600 /opt/gerrit2/etc/gerrit2trac.config
 
-Modify the configuration file _/opt/gerrit2/etc/gerrit2trac.config_, specifying the correct username, password and URLs for your site.
+Modify the configuration file $site\_path/etc/gerrit2trac.config, specifying the correct Trac username, password and URLs for your site.
 
 Copy the `gerrit2trac.py` script to your $site\_path/bin directory.
+
+**Example:**
 
     sudo cp ./gerrit2-trac/gerrit2trac.py /opt/gerrit2/bin
 
 Create the desired Gerrit hooks in your $site\_path/hooks directory.
+
+**Example:**
 
     if [ ! -d /opt/gerrit2/hooks ]; then
         sudo mkdir /opt/gerrit2/hooks
@@ -52,22 +56,24 @@ If hooks already exist and you would still like to use Gerrit2Trac for updating 
 
     python /opt/gerrit2/bin/gerrit2trac.py $(basename $0) "$@"
 
+Verify that the Trac username specified in $site\_path/etc/gerrit2trac.config can log into Trac and has TICKET\_MODIFY privileges.
+
 ## Usage
 
 Once the Gerrit hooks have been created, any corresponding Gerrit hook action will update the Trac ticket referenced in the Git commit message.
 
 ## Workflow customization
 
-Trac ticket update attributes _comment_, _action_ and _cc_  can be customized in the _[workflow]_ section of $site\_path/etc/gerrit2trac.config.
+Trac ticket attributes _comment_, _action_ and _cc_  can be customized in the _[workflow]_ section of $site\_path/etc/gerrit2trac.config.
 See the following examples for a sample custom workflow.
 
-Variable substitution in comments is supported where _$variable_ is an available parameter.
-See `gerrit2trac.py -h` for a list of available parameters.
+Variable substitution is supported where _$variable_ is an available Gerrit hook parameter.
 
 See the Gerrit Hook [documentation](https://gerrit-review.googlesource.com/Documentation/config-hooks.html) for a list of
 available hooks and the associated parameters.
 
-Note: When using variable substitution, hyphenated parameters must be referenced without the hyphen.
+Note: When using variable substitution, variable names need to be lower case and not include the hyphen in hyphenated parameters
+(i.e. the parameter _--Code-Review_ becomes _$codereview_).
 
 ## Examples
 
@@ -76,9 +82,9 @@ Note: When using variable substitution, hyphenated parameters must be referenced
     This is an example Git commit message.
 
     Including a line with 'Ticket: #' will update an existing Trac ticket
-    with pre-configured defaults or customized ticket actions.
+    with pre-configured defaults or customized ticket attributes.
 
-    Customized ticket actions can be confgured in the [workflow] section
+    Custom ticket attributes can be confgured in the [workflow] section
     of gerrit2trac.config.
 
     Ticket: 101
@@ -95,8 +101,6 @@ Note: When using variable substitution, hyphenated parameters must be referenced
     ;
     ; Note: remove the hyphen from hyphenated parameters.
     ;
-    ; See ./gerrit2-trac/examples/gerrit2trac.config.sample for more examples.
-    ;
     patchset_created.comment = A new patch-set is awaiting review.
         * Change-Id: $change
         * Change-Url: $changeurl
@@ -104,4 +108,6 @@ Note: When using variable substitution, hyphenated parameters must be referenced
         * Uploader: $uploader
     patchset_created.action = leave
     patchset_created.cc = $uploader
+
+See ./gerrit2-trac/examples/gerrit2trac.config.sample for more examples.
 

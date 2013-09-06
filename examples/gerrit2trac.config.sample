@@ -2,57 +2,72 @@
 ; Gerrit2Trac configuration ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;
-; Trac XMLRPC ;
-;;;;;;;;;;;;;;;
+;;;;;;;;
+; Trac ;
+;;;;;;;;
 
 [trac]
+;
+; The location that Gerrit2Trac uses to access Trac XML-RPC.
+;
 xmlRpcWebUrl = https://localhost/trac/login/rpc
+
+;
+; The credentials used to access Trac.
+;
 username = gerrit2
 password = secret
 
-;;;;;;;;;;;;;;;;;;;
-; Gerrit REST API ;
-;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;
+; Gerrit ;
+;;;;;;;;;;
 
 [gerrit]
+;
+; The location that Gerrit2Trac uses to access Gerrit Code Review REST API.
+;
 canonicalWebUrl = https://localhost/gerrit
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Workflow                                                            ;
 ;                                                                     ;
-; Here you can override the default ticket comments and actions with  ;
+; Here you can override the default ticket update attributes with     ;
 ; custom settings.                                                    ;
 ;                                                                     ;
-; Variable interprolation can be used where $variable is              ;
-; a named parameter.                                                  ; 
+; Variable substitution can be used where $variable is an available   ;
+; hook parameter. When specifying varabiables, use lower case and     ;
+; omit any hyphens.                                                   ; 
 ;                                                                     ;
-; See gerrit2trac.py -h for a list of named parameters.               ;
+; See gerrit2trac.py -h for a list of available parameters.           ;
 ;                                                                     ;
-; comment: comment to be added to ticket.                             ;
-; action: any valid Trac ticket action (leave, resolve, ...)          ;
-; cc: add address to ticket Cc: field (i.e. john@example.com [, ...]) ;
+; Available attributes:                                               ;
+;                                                                     ;
+; comment: the comment to be added to ticket.                         ;
+; action: any valid ticket action (leave, resolve, ...).              ;
+; cc: email address to be added to the ticket Cc: field.              ;
+;     (i.e. john@example.com [, ...])                                 ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 [workflow]
-
-; Default
-comment = Gerrit2Trac submitted this comment.
-action = leave
-
+;
 ; Patch-set created
+;
 patchset_created.comment = A new patch-set has been submitted to Gerrit for code review.
     * Change-Id: $change
     * Patch Set: $patchset
     * Uploader: $uploader
 patchset_created.cc = $uploader
 
+;
 ; Reviewer added
+;
 reviewer_added.comment = A Gerrit code-reviewer has been added.
     * Change-Id: $change
     * Reviewer: $reviewer
 
+;
 ; Comment added
+;
 comment_added.comment = A new comment has been added to Gerrit Code Review.
     * Change-Id: $change
     * Author: $author
@@ -60,7 +75,9 @@ comment_added.comment = A new comment has been added to Gerrit Code Review.
     * Verified: $verified
     * Comment: $comment
 
+;
 ; Change merged
+;
 change_merged.comment = Change has been successfully merged into the git repository.
     * Change-Id: $change
     * Submitter: $submitter
