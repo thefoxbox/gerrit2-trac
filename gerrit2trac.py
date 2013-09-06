@@ -53,8 +53,7 @@ def process_options(arglist=None):
                       help='configuration (default: %default)')
     group = OptionGroup(parser, "Parameters")
     group.add_option('--change',
-                     metavar='<change id>', action='store', default=None,
-                     help='required')
+                     metavar='<change id>', action='store', default=None)
     group.add_option('--is-draft', dest='isdraft',
                      metavar='<boolean>', action='store_true', default=0)
     group.add_option('--change-url', dest='changeurl',
