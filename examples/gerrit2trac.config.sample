@@ -8,15 +8,15 @@
 
 [trac]
 ;
-; The location that Gerrit2Trac uses to access Trac XML-RPC.
-;
-xmlRpcWebUrl = https://localhost/trac/login/rpc
-
-;
 ; The credentials used to access Trac.
 ;
 username = gerrit2
 password = secret
+
+;
+; The location that Gerrit2Trac uses to access Trac XML-RPC.
+;
+xmlRpcWebUrl = https://localhost/trac/login/rpc
 
 ;;;;;;;;;;
 ; Gerrit ;
