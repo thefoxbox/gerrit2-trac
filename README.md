@@ -94,7 +94,7 @@ Note: When using variable substitution, variable names need to be lower case and
 
     [workflow]
     ;
-    ; An example patchset-created triggerd workflow
+    ; An example patchset-created triggered workflow
     ;
     ; * Adds a custom Gerrit comment using variable substitution and wiki formatting.
     ; * Adds the patch-set uploader to the ticket Cc: field.
